@@ -1,12 +1,20 @@
-# Pi 3B+ &bull; Raspbian Buster &bull; Kernel v4.19.97
+# Pi 3B+ and 4B &bull; Raspbian Buster &bull; Kernel v4.19.97
 
 |||
 |---|---|
-|Device | Raspberry Pi 3B+|
+|Device | Raspberry Pi 3B+ and 4B|
 |Raspbian | [Raspbian Buster Lite 2020-02-13](https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2020-02-14/)|
 |Commit | [b52fca](https://github.com/seemoo-lab/nexmon_csi/commit/b52fca3abc18715d6d12692e531164b5d62a78fd)|
 |Nexmon Commit | [f9db9a](https://github.com/seemoo-lab/nexmon/commit/f9db9abcac8f40a7f8a8408429e34e1c51f33c97)|
 |Date | January 30, 2020|
+
+**Note**: This release contains code unmerged into the main repo and adds stability and new features.
+## Changes
+- Better Null pointer checking
+- Fix IQ order in CSI data
+- Add RSSI and Frame Control
+
+The payload starts with two magic bytes 0x1111 and is then followed by 1 byte of RSSI and 1 byte of Frame Control.
 
 ## Installation
 
@@ -52,3 +60,6 @@ Collect CSI by listening on UDP socket 5500, e.g. by using tcpdump: `tcpdump -i 
 
 ## Known issues
 * CSI collection may stop after changing parameters several times.
+
+## Credits
+- Commits were picked from [@mzakharo 's pull request](https://github.com/seemoo-lab/nexmon_csi/pull/46). Check the [individual commits](https://github.com/seemoo-lab/nexmon_csi/commits/master) for more information.
