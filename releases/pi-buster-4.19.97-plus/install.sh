@@ -46,6 +46,7 @@ git clone https://github.com/zeroby0/nexmon_csi.git
 setStatus "Building and installing Nexmon_CSI"
 cd nexmon_csi
 # git checkout 4fea4172a12155f2d2c977e206fdec56d11faf79
+git checkout release-pi-buster-4.19.97-plus
 make install-firmware
 
 setStatus "Installing makecsiparams"
