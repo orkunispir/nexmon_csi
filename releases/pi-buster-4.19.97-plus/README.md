@@ -38,7 +38,7 @@ Get Kernel Headers
 
 Install Nexmon_CSI
 * `sudo su`
-* `wget https://raw.githubusercontent.com/zeroby0/nexmon_csi/master/releases/pi-buster-4.19.97-plus/install.sh -O install.sh`
+* `wget https://raw.githubusercontent.com/zeroby0/nexmon_csi/release-pi-buster-4.19.97-plus/releases/pi-buster-4.19.97-plus/install.sh -O install.sh`
 * `tmux new -c /home/pi -s nexmon 'bash install.sh | tee output.log'`
 
 Your installation will happen in this tmux session. The right bottom corner will show the step running. Use `ctrl-b d` to detach, and `tmux attach-session -t nexmon` to re-attach.
