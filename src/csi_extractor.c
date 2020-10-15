@@ -135,8 +135,7 @@ struct wlc_d11rxhdr {
 struct csi_udp_frame {
     struct ethernet_ip_udp_header hdrs;
     uint16 kk1;
-    int8 rssi;
-    uint8 fc; //frame control
+    uint16 fc; //frame control
     uint8 SrcMac[6];
     uint16 seqCnt;
     uint16 csiconf;
@@ -150,7 +149,6 @@ struct int14 {signed int val:14;} __attribute__((packed));
 uint16 missing_csi_frames = 0;
 uint16 inserted_csi_values = 0;
 struct sk_buff *p_csi = 0;
-int8 last_rssi = 0;
 
 void
 create_new_csi_frame(struct wl_info *wl, uint16 csiconf, int length)
@@ -165,7 +163,6 @@ create_new_csi_frame(struct wl_info *wl, uint16 csiconf, int length)
     struct csi_udp_frame *udpfrm = (struct csi_udp_frame *) p_csi->data;
     // add magic bytes, csi config and chanspec to new udp frame
     udpfrm->kk1 = 0x1111;
-    udpfrm->rssi = last_rssi;
     udpfrm->fc = 0;
     udpfrm->seqCnt = 0;
     udpfrm->csiconf = csiconf;
@@ -272,7 +269,6 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
 
     wlc_rxhdr->tsf_l = tsf_l;
     wlc_phy_rssi_compute(wlc_hw->band->pi, wlc_rxhdr);
-    last_rssi = wlc_rxhdr->rssi;
     wlc_recv(wlc_hw->wlc, p);
 }
 
