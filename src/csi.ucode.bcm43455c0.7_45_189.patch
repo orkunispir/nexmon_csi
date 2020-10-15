@@ -355,12 +355,12 @@
 > 	sub	SPARE1, 1, SPARE1
 > 	jne	SPARE1, 0, read_csi-
 > 	jne	SPARE3, 1, not_last_chunk_skip_mac+
-> 	mov	[3,off1], [0,off5]
-> 	mov	[4,off1], [1,off5]
-> 	mov	[5,off1], [2,off5]
-> 	mov	[6,off1], [3,off5]
-> 	mov	[7,off1], [4,off5]
-> 	mov	[8,off1], [5,off5]
+> 	mov	[14,off1], [0,off5]
+> 	mov	[18,off1], [1,off5]
+> 	mov	[19,off1], [2,off5]
+> 	mov	[20,off1], [3,off5]
+> 	mov	[21,off1], [4,off5]
+> 	mov	[22,off1], [5,off5]
 > not_last_chunk_skip_mac:
 > 	mov	RX_HDR_BASE + RXE_RXHDR_LEN, SPR_RXE_RXHDR_OFFSET
 > 	calls	L900
