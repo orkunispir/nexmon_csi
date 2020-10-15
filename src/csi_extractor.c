@@ -134,10 +134,10 @@ struct wlc_d11rxhdr {
 
 struct csi_udp_frame {
     struct ethernet_ip_udp_header hdrs;
-    uint16 kk1;
-    uint16 fc; //frame control
     uint8 SrcMac[6];
     uint16 seqCnt;
+    uint16 fc; //frame control
+    uint16 kk1;
     uint16 csiconf;
     uint16 chanspec;
     uint16 chip;
@@ -256,6 +256,8 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
             memcpy(udpfrm->SrcMac, &(ucodecsifrm->csi[tones]), sizeof(udpfrm->SrcMac)); // last csifrm also contains SrcMac
             udpfrm->seqCnt = *((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)); // last csifrm also contains seqN
             udpfrm->fc = (*((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)+1)); // last csifrm also contains frame control field
+            udpfrm->kk1 = (*((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)+2)); // last csifrm also contains frame control field
+
 #endif
             p_csi->len = sizeof(struct csi_udp_frame) + inserted_csi_values * sizeof(uint32);
             skb_pull(p_csi, sizeof(struct ethernet_ip_udp_header));
