@@ -134,10 +134,8 @@ struct wlc_d11rxhdr {
 
 struct csi_udp_frame {
     struct ethernet_ip_udp_header hdrs;
-    uint8 SrcMac[6];
-    uint16 seqCnt;
-    uint16 fc; //frame control
-    uint16 kk1;
+    uint32 kk1;
+    uint8  packetData[40];
     uint16 csiconf;
     uint16 chanspec;
     uint16 chip;
@@ -162,9 +160,7 @@ create_new_csi_frame(struct wl_info *wl, uint16 csiconf, int length)
     // fill header
     struct csi_udp_frame *udpfrm = (struct csi_udp_frame *) p_csi->data;
     // add magic bytes, csi config and chanspec to new udp frame
-    udpfrm->kk1 = 0x1111;
-    udpfrm->fc = 0;
-    udpfrm->seqCnt = 0;
+    udpfrm->kk1 = 0xdeadbeef;
     udpfrm->csiconf = csiconf;
     udpfrm->chanspec = get_chanspec(wl->wlc);
     udpfrm->chip = NEXMON_CHIP;
@@ -253,10 +249,10 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
             memcpy(udpfrm->SrcMac, &(ucodecsifrm->src), sizeof(udpfrm->SrcMac));
             udpfrm->seqCnt = ucodecsifrm->seqcnt;
 #else
-            memcpy(udpfrm->SrcMac, &(ucodecsifrm->csi[tones]), sizeof(udpfrm->SrcMac)); // last csifrm also contains SrcMac
-            udpfrm->seqCnt = *((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)); // last csifrm also contains seqN
-            udpfrm->fc = (*((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)+1)); // last csifrm also contains frame control field
-            udpfrm->kk1 = (*((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)+2)); // last csifrm also contains frame control field
+            memcpy(udpfrm->packetData, &(ucodecsifrm->csi[tones]), sizeof(udpfrm->packetData)); // last csifrm contains 40 bytes of packet data
+            // memcpy(udpfrm->SrcMac, &(ucodecsifrm->csi[tones]), sizeof(udpfrm->SrcMac)); // last csifrm also contains SrcMac
+            // udpfrm->seqCnt = *((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)); // last csifrm also contains seqN
+            // udpfrm->fc = (*((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)+1)); // last csifrm also contains frame control field
 
 #endif
             p_csi->len = sizeof(struct csi_udp_frame) + inserted_csi_values * sizeof(uint32);

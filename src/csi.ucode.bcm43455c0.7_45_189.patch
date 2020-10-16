@@ -283,7 +283,7 @@
 ---
 > 	orx	0, 2, 0x1, [RX_HDR_RxStatus1], [RX_HDR_RxStatus1]
 > 	orx	0, 1, 0x0, [RX_HDR_RxStatus2], [RX_HDR_RxStatus2]
-4158a4291,4380
+4158a4291,4394
 > 	je	DUMP_CSI, 0, csi_end+
 > #define		ACPHY_TBL_ID_CORE0CHANESTTBL	73
 > #define		ACPHY_TBL_ID_CORE1CHANESTTBL	105
@@ -355,12 +355,26 @@
 > 	sub	SPARE1, 1, SPARE1
 > 	jne	SPARE1, 0, read_csi-
 > 	jne	SPARE3, 1, not_last_chunk_skip_mac+
-> 	mov	[14,off1], [0,off5]
-> 	mov	[18,off1], [1,off5]
-> 	mov	[19,off1], [2,off5]
-> 	mov	[20,off1], [3,off5]
-> 	mov	[21,off1], [4,off5]
-> 	mov	[22,off1], [5,off5]
+> 	mov	[18,off1], [0,off5]
+> 	mov	[19,off1], [1,off5]
+> 	mov	[20,off1], [2,off5]
+> 	mov	[21,off1], [3,off5]
+> 	mov	[22,off1], [4,off5]
+> 	mov	[23,off1], [5,off5]
+> 	mov	[24,off1], [6,off5]
+> 	mov	[25,off1], [7,off5]
+> 	mov	[26,off1], [8,off5]
+> 	mov	[27,off1], [9,off5]
+> 	mov	[28,off1], [10,off5]
+> 	mov	[29,off1], [11,off5]
+> 	mov	[30,off1], [12,off5]
+> 	mov	[31,off1], [13,off5]
+> 	mov	[32,off1], [14,off5]
+> 	mov	[33,off1], [15,off5]
+> 	mov	[34,off1], [16,off5]
+> 	mov	[35,off1], [17,off5]
+> 	mov	[36,off1], [18,off5]
+> 	mov	[37,off1], [19,off5]
 > not_last_chunk_skip_mac:
 > 	mov	RX_HDR_BASE + RXE_RXHDR_LEN, SPR_RXE_RXHDR_OFFSET
 > 	calls	L900
