@@ -224,10 +224,10 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
 #if ((NEXMON_CHIP == CHIP_VER_BCM4339) || (NEXMON_CHIP == CHIP_VER_BCM43455c0))
             // csi format is 4bit null, int14 real, int14 imag
             // convert to int16 real, int16 imag
-            struct int14 sint14;
-            sint14.val = (ucodecsifrm->csi[i] >> 14) & 0x3fff;
+            // struct int14 sint14;
+            // sint14.val = (ucodecsifrm->csi[i] >> 14) & 0x3fff;
             // udpfrm->csi_values[inserted_csi_values] = (uint32)((int16)(sint14.val)) & 0xffff;
-            sint14.val = ucodecsifrm->csi[i] & 0x3fff;
+            // sint14.val = ucodecsifrm->csi[i] & 0x3fff;
             // udpfrm->csi_values[inserted_csi_values] |= ((uint32)((int16)(sint14.val))) << 16;
 #elif ((NEXMON_CHIP == CHIP_VER_BCM4358) || (NEXMON_CHIP == CHIP_VER_BCM4366c0))
             // csi format
