@@ -139,7 +139,7 @@ struct csi_udp_frame {
     uint16 csiconf;
     uint16 chanspec;
     uint16 chip;
-    // uint32 csi_values[];
+    uint32 csi_values[];
 } __attribute__((packed));
 
 struct int14 {signed int val:14;} __attribute__((packed));
@@ -225,10 +225,10 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
             // csi format is 4bit null, int14 real, int14 imag
             // convert to int16 real, int16 imag
             // struct int14 sint14;
-            // sint14.val = (ucodecsifrm->csi[i] >> 14) & 0x3fff;
-            // udpfrm->csi_values[inserted_csi_values] = (uint32)((int16)(sint14.val)) & 0xffff;
-            // sint14.val = ucodecsifrm->csi[i] & 0x3fff;
-            // udpfrm->csi_values[inserted_csi_values] |= ((uint32)((int16)(sint14.val))) << 16;
+            sint14.val = (ucodecsifrm->csi[i] >> 14) & 0x3fff;
+            udpfrm->csi_values[inserted_csi_values] = (uint32)((int16)(sint14.val)) & 0xffff;
+            sint14.val = ucodecsifrm->csi[i] & 0x3fff;
+            udpfrm->csi_values[inserted_csi_values] |= ((uint32)((int16)(sint14.val))) << 16;
 #elif ((NEXMON_CHIP == CHIP_VER_BCM4358) || (NEXMON_CHIP == CHIP_VER_BCM4366c0))
             // csi format
             // for bcm4358:
@@ -236,7 +236,7 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
             // for bcm4366c0:
             // sign(1bit) real(12bit) sign(1bit) imag(12bit) exp(6bit)
             // forward as uint32 and unpack in user application
-            // udpfrm->csi_values[inserted_csi_values] = ucodecsifrm->csi[i];
+            udpfrm->csi_values[inserted_csi_values] = ucodecsifrm->csi[i];
 #endif
             inserted_csi_values++;
         }
