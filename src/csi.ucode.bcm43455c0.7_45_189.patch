@@ -119,6 +119,7 @@
 > 	je	r23, 0x0, skip+
 > 	je	[APPLY_PKT_FILTER], 0, nopktfilt+
 > 	and	[3,off1], 0x00ff, SPARE1
+> 	or	SPARE1, 0xb0, SPARE1
 > 	jne	SPARE1, [PKT_FILTER_BYTE], skip+
 > nopktfilt:
 > 	je	[N_CMP_SRC_MAC], 0, nomacfilter+
