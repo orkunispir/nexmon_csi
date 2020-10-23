@@ -5,8 +5,8 @@ function setStatus () {
     tmux set status-right "Status: $1"   
   fi
 
-  echo "********** ----- Status: $1 ----- ***********"
-  echo "$1" >> 'nexmoncsi_status.log'
+  echo -e "\n********** ----- Status: $1 ----- ***********"
+  echo "$1" >> '/home/pi/nexmoncsi_status.log'
 }
 
 setStatus "Removing wpasupplicant"
