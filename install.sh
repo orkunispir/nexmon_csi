@@ -45,7 +45,7 @@ git clone https://github.com/zeroby0/nexmon_csi.git
 
 setStatus "Building and installing Nexmon_CSI"
 cd nexmon_csi
-git checkout pi-5.4.51
+git checkout pi-5.4.51-plus
 make install-firmware
 
 setStatus "Installing makecsiparams"
