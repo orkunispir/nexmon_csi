@@ -367,11 +367,11 @@
 > 	mov	[13,off1], [8,off5]
 > 	mov	[3,off1], [9,off5]
 > 	mov	[14,off1], [10,off5]
-> 	mov	0x0001, [11,off5]
-> 	mov	0x0203, [12,off5]
-> 	mov	0x0405, [13,off5]
-> 	mov	0x0607, [14,off5]
-> 	mov	0x0809, [15,off5]
+> 	mov	0x494d, [11,off5]
+> 	mov	0x5245, [12,off5]
+> 	mov	0x5345, [13,off5]
+> 	mov	0x5256, [14,off5]
+> 	mov	0x4544, [15,off5]
 > not_last_chunk_skip_mac:
 > 	mov	RX_HDR_BASE + RXE_RXHDR_LEN, SPR_RXE_RXHDR_OFFSET
 > 	calls	L900
