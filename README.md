@@ -48,14 +48,14 @@ Here is the embedded data structure:
 Bytes    | Type       | Name                    | Description
 ---------| ---------- | ----------------------- | --------------------
 4        | `uint32`   | Magic Bytes             | 0x11111111
-6        | `uint8[6]` | Address 1               | Address 1 - recv
-6        | `uint8[6]` | Address 2               | Address 2 - tran
-6        | `uint8[6]` | Address 3               | Address 3
-2        | `uint16`   | Frame Control           | Frame's FC field
-2        | `uint16`   | Sequence Control        | Frame's SC field
+6        | `uint8[6]` | MAC 1                   | Address 1 - recv
+6        | `uint8[6]` | MAC 2                   | Address 2 - tran
+6        | `uint8[6]` | MAC 3                   | Address 3
+2        | `uint16`   | FC                      | Frame's Control field
+2        | `uint16`   | SC                      | Frame's SC field
 1        | `int8`     | RSSI                    | Instantaneous frame RSSI
 18       | `uint16[9]`| Reserved                | Reserved for future use
-2        | `uint16`   | Core and Spatial Stream | Lowest 3 bytes indicate the Core, and the next three bits indicate the Spatial Stream number. 
+2        | `uint16`   | CSS                     | Core and Spatial Stream
 2        | `uint16`   | Chanspec                | Chanspec used during extraction. See `nexutil -k`.
 2        | `uint16`   | Chip Version            | Chip Version
 variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes with interleaved Int16 Real and Int16 Imaginary. There are `bandwidth * 3.2` OFDM subcarriers per channel, and a CSI sample for every subcarrier is present.
