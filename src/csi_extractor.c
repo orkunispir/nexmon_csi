@@ -121,7 +121,7 @@ struct csi_udp_frame {
     uint8 mac_3[6];
     uint16 fc;
     uint16 sc;
-    int8 rssi;
+    int16 rssi;
     uint16 res_1;
     uint16 res_2;
     uint16 res_3;
@@ -272,7 +272,9 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
                             (uint16*)(&(ucodecsifrm->csi[tones])) +
                             ((sizeof(udpfrm->mac_1)>>1) * 3) +
                             6
-                        );                                                                  
+                        );
+
+            udpfrm->rssi = last_rssi;                                                                 
 
             p_csi->len = sizeof(struct csi_udp_frame) + inserted_csi_values * sizeof(uint32);
             skb_pull(p_csi, sizeof(struct ethernet_ip_udp_header));
