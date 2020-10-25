@@ -228,9 +228,9 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
 
             // Last CSI frame contains more data we added 
             // in the read_csi section.
-            memcpy(udpfrm->mac_1, &(ucodecsifrm->csi[tones]) + (sizeof(udpfrm->mac_1) * 0), sizeof(udpfrm->mac_1));
-            memcpy(udpfrm->mac_2, &(ucodecsifrm->csi[tones]) + (sizeof(udpfrm->mac_1) * 1), sizeof(udpfrm->mac_1));
-            memcpy(udpfrm->mac_3, &(ucodecsifrm->csi[tones]) + (sizeof(udpfrm->mac_1) * 2), sizeof(udpfrm->mac_1));
+            memcpy(udpfrm->mac_1, &(ucodecsifrm->csi[tones]) + ((sizeof(udpfrm->mac_1)>>1) * 0), sizeof(udpfrm->mac_1));
+            memcpy(udpfrm->mac_2, &(ucodecsifrm->csi[tones]) + ((sizeof(udpfrm->mac_1)>>1) * 1), sizeof(udpfrm->mac_1));
+            memcpy(udpfrm->mac_3, &(ucodecsifrm->csi[tones]) + ((sizeof(udpfrm->mac_1)>>1) * 2), sizeof(udpfrm->mac_1));
 
             udpfrm->fc = *(
                             (uint16*)(&(ucodecsifrm->csi[tones])) +
