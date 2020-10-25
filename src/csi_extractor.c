@@ -127,10 +127,6 @@ struct csi_udp_frame {
     uint16 res_3;
     uint16 res_4;
     uint16 res_5;
-    uint16 res_6;
-    uint16 res_7;
-    uint16 res_8;
-    uint16 res_9;
     uint16 csiconf;
     uint16 chanspec;
     uint16 chip;
@@ -165,10 +161,6 @@ create_new_csi_frame(struct wl_info *wl, uint16 csiconf, int length)
     udpfrm->res_3 = 0xff;
     udpfrm->res_4 = 0xff;
     udpfrm->res_5 = 0xff;
-    udpfrm->res_6 = 0xff;
-    udpfrm->res_7 = 0xff;
-    udpfrm->res_8 = 0xff;
-    udpfrm->res_9 = 0xff;
     udpfrm->csiconf = csiconf;
     udpfrm->chanspec = get_chanspec(wl->wlc);
     udpfrm->chip = NEXMON_CHIP;
@@ -280,31 +272,7 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
                             (uint16*)(&(ucodecsifrm->csi[tones])) +
                             ((sizeof(udpfrm->mac_1)>>1) * 3) +
                             6
-                        );
-
-            udpfrm->res_6 = *(
-                            (uint16*)(&(ucodecsifrm->csi[tones])) +
-                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
-                            7
-                        ); 
-
-            udpfrm->res_7 = *(
-                            (uint16*)(&(ucodecsifrm->csi[tones])) +
-                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
-                            8
-                        );
-
-            udpfrm->res_8 = *(
-                            (uint16*)(&(ucodecsifrm->csi[tones])) +
-                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
-                            9
-                        );
-
-            udpfrm->res_9 = *(
-                            (uint16*)(&(ucodecsifrm->csi[tones])) +
-                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
-                            10
-                        );                                                                       
+                        );                                                                  
 
             p_csi->len = sizeof(struct csi_udp_frame) + inserted_csi_values * sizeof(uint32);
             skb_pull(p_csi, sizeof(struct ethernet_ip_udp_header));

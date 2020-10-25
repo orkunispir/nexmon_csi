@@ -54,7 +54,7 @@ Bytes    | Type       | Name                    | Description
 2        | `uint16`   | FC                      | Frame's Control field
 2        | `uint16`   | SC                      | Frame's SC field
 1        | `int8`     | RSSI                    | Instantaneous frame RSSI
-18       | `uint16[9]`| Reserved                | Reserved for future use
+10       | `uint16[5]`| Reserved                | Reserved for future use
 2        | `uint16`   | CSS                     | Core and Spatial Stream
 2        | `uint16`   | Chanspec                | Chanspec used during extraction. See `nexutil -k`.
 2        | `uint16`   | Chip Version            | Chip Version
