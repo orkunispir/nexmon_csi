@@ -47,18 +47,14 @@ Here is the embedded data structure:
 
 Bytes    | Type       | Name                    | Description
 ---------| ---------- | ----------------------- | --------------------
-4        | `uint32`   | Magic Bytes             | 0xabcddcba
-6        | `uint8[6]` | Source Mac              | Source Mac ID of the WiFi Frame
-6        | `uint8[6]` | Address 1               | Address 1
-6        | `uint8[6]` | Address 2               | Address 2
+4        | `uint32`   | Magic Bytes             | 0x11111111
+6        | `uint8[6]` | Address 1               | Address 1 - recv
+6        | `uint8[6]` | Address 2               | Address 2 - tran
 6        | `uint8[6]` | Address 3               | Address 3
-6        | `uint8[6]` | Address 4               | Address 4
 2        | `uint16`   | Frame Control           | Frame's FC field
 2        | `uint16`   | Sequence Control        | Frame's SC field
-2        | `uint16`   | QoS Control             | Frame's QC field
 1        | `int8`     | RSSI                    | Instantaneous frame RSSI
-2        | `uint16`   | Reserved                | 0xdead
-2        | `uint16`   | Reserved                | 0xbeef
+18       | `uint16[9]`| Reserved                | Reserved for future use
 2        | `uint16`   | Core and Spatial Stream | Lowest 3 bytes indicate the Core, and the next three bits indicate the Spatial Stream number. 
 2        | `uint16`   | Chanspec                | Chanspec used during extraction. See `nexutil -k`.
 2        | `uint16`   | Chip Version            | Chip Version
