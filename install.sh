@@ -6,7 +6,7 @@ function setStatus () {
   fi
 
   echo -e "\n********** ----- Status: $1 ----- ***********"
-  echo "$1" >> '/home/pi/nexmoncsi_status.log'
+  echo "$1" >> '/home/pi/nexmoncsi_install.log'
 }
 
 setStatus "Removing wpasupplicant"
@@ -65,4 +65,7 @@ mv $(modinfo brcmfmac -n) ./brcmfmac.ko.orig
 cp ./brcmfmac.ko $(modinfo brcmfmac -n)
 depmod -a
 
+setStatus "Downloading additional scripts"
+cd /home/pi
+wget https://raw.githubusercontent.com/zeroby0/nexmon_csi/pi-5.4.51-plus/update.sh -O update.sh
 setStatus "Completed"
