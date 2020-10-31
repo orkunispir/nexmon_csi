@@ -47,7 +47,9 @@ Here is the embedded data structure:
 
 Bytes    | Type       | Name                    | Description
 ---------| ---------- | ----------------------- | --------------------
-4        | `uint32`   | Magic Bytes             | 0x11111111
+2        | `uint16`   | Magic Bytes             | 0x1111
+1        | `int8`     | RSSI                    | Instantaneous frame RSSI
+1        | `uint8`    | Frame Control           | First byte of frame's FC feild
 6        | `uint8[6]` | Source Mac              | Source Mac ID of the WiFi Frame
 2        | `uint16`   | Sequence Number         | Sequence number of the WiFi Frame
 2        | `uint16`   | Core and Spatial Stream | Lowest 3 bytes indicate the Core, and the next three bits indicate the Spatial Stream number. 
