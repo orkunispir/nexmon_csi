@@ -72,21 +72,11 @@ extern void prepend_ethernet_ipv4_udp_header(struct sk_buff *p);
 // header of csi frame coming from ucode
 struct d11csihdr {
 #if NEXMON_CHIP == CHIP_VER_BCM4366c0
-#define CSIDATA_PER_CHUNK   64
-    uint16 NexmonCSICfg;
-    uint32 csi[CSIDATA_PER_CHUNK>>2];
-    uint16 csiconf;
-    uint16 start;
-    uint8  src[6];
-    uint16 seqcnt;
-    uint16 chanspec;
-#else
     uint16 RxFrameSize;                 /* 0x000 Set to 0x2 for CSI frames */
     uint16 NexmonExt;                   /* 0x002 */
     uint16 NexmonCSICfg;		/* 0x004 Configuration of this CSI */
     uint16 NexmonCSILen;		/* 0x006 Number of bytes in this chunk */
     uint32 csi[];                       /* 0x008 Array of CSI data */
-#endif
 } __attribute__((packed));
 
 // original hardware header
@@ -103,14 +93,6 @@ struct d11rxhdr {
     uint16 RxStatus2;                   /* 0x012 extended MAC Rx status */
     uint16 RxTSFTime;                   /* 0x014 RxTSFTime time of first MAC symbol + M_PHY_PLCPRX_DLY */
     uint16 RxChan;                      /* 0x016 gain code, channel radio code, and phy type */
-#if NEXMON_CHIP == CHIP_VER_BCM4366c0
-    uint16 RxFameSize_0;                /* size of rx-frame in fifo-0 in case frame is copied to fifo-1 */
-    uint16 HdrConvSt;                   /* hdr conversion status. Copy of ihr(RCV_HDR_CTLSTS). */
-    uint16 AvbRxTimeL;                  /* AVB RX timestamp low16 */
-    uint16 AvbRxTimeH;                  /* AVB RX timestamp high16 */
-    uint16 MuRate;                      /* MU rate info (bit3:0 MCS, bit6:4 NSTS) */
-    uint16 Pad;
-#endif
 } __attribute__((packed));
 
 // header or regular frame coming from ucode
@@ -178,16 +160,7 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
 {
     struct osl_info *osh = wlc_hw->wlc->osh;
     struct wl_info *wl = wlc_hw->wlc->wl;
-#if NEXMON_CHIP == CHIP_VER_BCM4366c0
-    if (wlc_rxhdr->rxhdr.Pad) {
-        struct d11csihdr *ucodecsifrm = (struct d11csihdr *) &(wlc_rxhdr->rxhdr.Pad);
-        int missing = ucodecsifrm->NexmonCSICfg & 0xff;
-        int tones = CSIDATA_PER_CHUNK>>2;
-        uint16 csiconf = ucodecsifrm->csiconf;
-#define NEWCSI	0x8000
-        // check this is a new frame
-        if (ucodecsifrm->start & NEWCSI) {
-#else
+
     if (wlc_rxhdr->rxhdr.RxFrameSize == 2) {
         struct d11csihdr *ucodecsifrm = (struct d11csihdr *) &(wlc_rxhdr->rxhdr);
         int missing = ucodecsifrm->NexmonCSICfg & 0xff;
@@ -228,7 +201,6 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
 
         int i;
         for (i = 0; i < tones; i ++) {
-#if ((NEXMON_CHIP == CHIP_VER_BCM4339) || (NEXMON_CHIP == CHIP_VER_BCM43455c0))
             // csi format is 4bit null, int14 real, int14 imag
             // convert to int16 real, int16 imag
             struct int14 sint14;
@@ -236,15 +208,6 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
             udpfrm->csi_values[inserted_csi_values] = (uint32)((int16)(sint14.val)) & 0xffff;
             sint14.val = ucodecsifrm->csi[i] & 0x3fff;
             udpfrm->csi_values[inserted_csi_values] |= ((uint32)((int16)(sint14.val))) << 16;
-#elif ((NEXMON_CHIP == CHIP_VER_BCM4358) || (NEXMON_CHIP == CHIP_VER_BCM4366c0))
-            // csi format
-            // for bcm4358:
-            // sign(1bit) real(9bit) sign(1bit) imag(9bit) exp(5bit)
-            // for bcm4366c0:
-            // sign(1bit) real(12bit) sign(1bit) imag(12bit) exp(6bit)
-            // forward as uint32 and unpack in user application
-            udpfrm->csi_values[inserted_csi_values] = ucodecsifrm->csi[i];
-#endif
             inserted_csi_values++;
         }
 
@@ -252,14 +215,10 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
 
         // send csi udp to host
         if (missing_csi_frames == 0) {
-#if NEXMON_CHIP == CHIP_VER_BCM4366c0
-            memcpy(udpfrm->SrcMac, &(ucodecsifrm->src), sizeof(udpfrm->SrcMac));
-            udpfrm->seqCnt = ucodecsifrm->seqcnt;
-#else
             memcpy(udpfrm->SrcMac, &(ucodecsifrm->csi[tones]), sizeof(udpfrm->SrcMac)); // last csifrm also contains SrcMac
             udpfrm->seqCnt = *((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)); // last csifrm also contains seqN
             udpfrm->fc = (*((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)+1)); // last csifrm also contains frame control field
-#endif
+            
             p_csi->len = sizeof(struct csi_udp_frame) + inserted_csi_values * sizeof(uint32);
             skb_pull(p_csi, sizeof(struct ethernet_ip_udp_header));
             prepend_ethernet_ipv4_udp_header(p_csi);
