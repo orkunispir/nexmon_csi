@@ -71,7 +71,6 @@ extern void prepend_ethernet_ipv4_udp_header(struct sk_buff *p);
 
 // header of csi frame coming from ucode
 struct d11csihdr {
-#if NEXMON_CHIP == CHIP_VER_BCM4366c0
     uint16 RxFrameSize;                 /* 0x000 Set to 0x2 for CSI frames */
     uint16 NexmonExt;                   /* 0x002 */
     uint16 NexmonCSICfg;		/* 0x004 Configuration of this CSI */
@@ -116,11 +115,18 @@ struct wlc_d11rxhdr {
 
 struct csi_udp_frame {
     struct ethernet_ip_udp_header hdrs;
-    uint16 kk1;
-    int8 rssi;
-    uint8 fc;
-    uint8 SrcMac[6];
-    uint16 seqCnt;
+    uint32 kk1;
+    uint8 mac_1[6];
+    uint8 mac_2[6];
+    uint8 mac_3[6];
+    uint16 fc;
+    uint16 sc;
+    int16 rssi;
+    uint16 res_1;
+    uint16 res_2;
+    uint16 res_3;
+    uint16 res_4;
+    uint16 res_5;
     uint16 csiconf;
     uint16 chanspec;
     uint16 chip;
@@ -146,10 +152,15 @@ create_new_csi_frame(struct wl_info *wl, uint16 csiconf, int length)
     // fill header
     struct csi_udp_frame *udpfrm = (struct csi_udp_frame *) p_csi->data;
     // add magic bytes, csi config and chanspec to new udp frame
-    udpfrm->kk1 = 0x1111;
-    udpfrm->rssi = last_rssi;
+    udpfrm->kk1 = 0x11111111;
     udpfrm->fc = 0;
-    udpfrm->seqCnt = 0;
+    udpfrm->sc = 0;
+    udpfrm->rssi = last_rssi;
+    udpfrm->res_1 = 0xff;
+    udpfrm->res_2 = 0xff;
+    udpfrm->res_3 = 0xff;
+    udpfrm->res_4 = 0xff;
+    udpfrm->res_5 = 0xff;
     udpfrm->csiconf = csiconf;
     udpfrm->chanspec = get_chanspec(wl->wlc);
     udpfrm->chip = NEXMON_CHIP;
@@ -170,7 +181,6 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
 #define NEWCSI	0x4000
         // check this is a new frame
         if (ucodecsifrm->NexmonCSICfg & NEWCSI) {
-#endif
             if (p_csi != 0) {
                 printf("unexpected new csi, clearing old\n");
                 pkt_buf_free_skb(osh, p_csi, 0);
@@ -215,10 +225,54 @@ process_frame_hook(struct sk_buff *p, struct wlc_d11rxhdr *wlc_rxhdr, struct wlc
 
         // send csi udp to host
         if (missing_csi_frames == 0) {
-            memcpy(udpfrm->SrcMac, &(ucodecsifrm->csi[tones]), sizeof(udpfrm->SrcMac)); // last csifrm also contains SrcMac
-            udpfrm->seqCnt = *((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)); // last csifrm also contains seqN
-            udpfrm->fc = (*((uint16*)(&(ucodecsifrm->csi[tones]))+(sizeof(udpfrm->SrcMac)>>1)+1)); // last csifrm also contains frame control field
-            
+            // Last CSI frame contains more data we added 
+            // in the read_csi section.
+            memcpy(udpfrm->mac_1, (uint16*)&(ucodecsifrm->csi[tones]) + ((sizeof(udpfrm->mac_1)>>1) * 0), sizeof(udpfrm->mac_1));
+            memcpy(udpfrm->mac_2, (uint16*)&(ucodecsifrm->csi[tones]) + ((sizeof(udpfrm->mac_1)>>1) * 1), sizeof(udpfrm->mac_1));
+            memcpy(udpfrm->mac_3, (uint16*)&(ucodecsifrm->csi[tones]) + ((sizeof(udpfrm->mac_1)>>1) * 2), sizeof(udpfrm->mac_1));
+
+            udpfrm->fc = *(
+                            (uint16*)(&(ucodecsifrm->csi[tones])) +
+                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
+                            0
+                        );
+
+            udpfrm->sc = *(
+                            (uint16*)(&(ucodecsifrm->csi[tones])) +
+                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
+                            1
+                        );
+                
+            udpfrm->res_1 = *(
+                            (uint16*)(&(ucodecsifrm->csi[tones])) +
+                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
+                            2
+                        );
+
+            udpfrm->res_2 = *(
+                            (uint16*)(&(ucodecsifrm->csi[tones])) +
+                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
+                            3
+                        );
+
+            udpfrm->res_3 = *(
+                            (uint16*)(&(ucodecsifrm->csi[tones])) +
+                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
+                            4
+                        );
+
+            udpfrm->res_4 = *(
+                            (uint16*)(&(ucodecsifrm->csi[tones])) +
+                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
+                            5
+                        );
+
+            udpfrm->res_5 = *(
+                            (uint16*)(&(ucodecsifrm->csi[tones])) +
+                            ((sizeof(udpfrm->mac_1)>>1) * 3) +
+                            6
+                        );
+
             p_csi->len = sizeof(struct csi_udp_frame) + inserted_csi_values * sizeof(uint32);
             skb_pull(p_csi, sizeof(struct ethernet_ip_udp_header));
             prepend_ethernet_ipv4_udp_header(p_csi);
