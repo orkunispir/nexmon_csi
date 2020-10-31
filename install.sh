@@ -2,10 +2,11 @@
 
 function setStatus () {
   if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
-    tmux set status-right "Status: $1"
-  else
-    echo "Status: $1"
+    tmux set status-right "Status: $1"   
   fi
+
+  echo -e "\n********** ----- Status: $1 ----- ***********"
+  echo "$1" >> '/home/pi/nexmoncsi_install.log'
 }
 
 setStatus "Removing wpasupplicant"
