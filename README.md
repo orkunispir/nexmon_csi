@@ -57,7 +57,7 @@ variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes wit
 
 # Getting Started
 ### Prepare Raspberry Pi
-* Burn [Raspbian Buster Lite 2020-08-20](https://www.raspberrypi.org/downloads/raspberry-pi-os/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
+* Burn [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-08-24/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
 * [Create an empty file called `ssh`](https://www.raspberrypi.org/documentation/remote-access/ssh/), without any extension, on the boot partition of the SD card.
 * [SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) into the Pi.
 * With `sudo raspi-config`, set WiFi Country, Time Zone, and then Expand File System.
@@ -79,6 +79,9 @@ Install dependencies.
 
 Your installation will happen in this tmux session. The right bottom corner will show the step running. Use `ctrl-b d` to detach, and `tmux attach-session -t nexmon` to re-attach.
 
+# Known issues
+
+A kernel upgrade may have caused instability in some installs. Try using the 4.19.97 branch if you're facing issues.
 
 # Extract from our License
 
