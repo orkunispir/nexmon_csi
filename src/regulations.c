@@ -206,6 +206,7 @@ unsigned short additional_valid_chanspecs[] = {
     CH20MHZ_CHSPEC(13),
     CH40MHZ_CHSPEC(13, WL_CHANSPEC_CTL_SB_L),
     CH80MHZ_CHSPEC(13, WL_CHANSPEC_CTL_SB_L),
+    CH80MHZ_CHSPEC(42, WL_CHANSPEC_CTL_SB_LL),
     CH80MHZ_CHSPEC(58, WL_CHANSPEC_CTL_SB_LL),
     CH20MHZ_CHSPEC(106),
     CH40MHZ_CHSPEC(106, WL_CHANSPEC_CTL_SB_L),
@@ -216,7 +217,6 @@ unsigned short additional_valid_chanspecs[] = {
     CH80MHZ_CHSPEC(122, WL_CHANSPEC_CTL_SB_L),
     CH20MHZ_CHSPEC(120),
 #if (NEXMON_CHIP == CHIP_VER_BCM43455c0)
-    0xe02a, // 36/80
     0xe29b, // 157/80
 #endif
 };
