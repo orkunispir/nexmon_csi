@@ -63,6 +63,8 @@ variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes wit
 * With `sudo raspi-config`, set WiFi Country, Time Zone, and then Expand File System.
 * Reboot when asked to.
 
+**Note**: Ensure you're using the correct version of Raspbian. Versions other than 2020-02-13 will not work.
+
 ### Install dependencies
 Install dependencies. Do **not** run _apt upgrade_, that will change the kernel.
 
