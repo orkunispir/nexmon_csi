@@ -11,7 +11,7 @@ several Broadcomm Wi-Fi chips. For a full list, see the [original Nexmon_CSI rep
 |                   |                         |
 | ----------------- | ----------------------- |
 | Device            | Raspberry Pi 3B+ and 4  |
-| Raspbian          | [Raspbian Buster Lite 2020-08-20](https://www.raspberrypi.org/downloads/raspberry-pi-os/) |
+| Raspbian          | [Raspbian Buster Lite 2021-01-11](https://www.raspberrypi.org/software/operating-systems/#raspberry-pi-os-32-bit) |
 | Chip              | BCM43455c0 (built-in)   |
 | Nexmon_csi Commit | [ba99ce](https://github.com/seemoo-lab/nexmon_csi/commit/ba99ce12a6a42d7e4ec75e6f8ace8f610ed2eb60) |
 | Nexmon Commit     | [050d41](https://github.com/seemoo-lab/nexmon/commit/https://github.com/seemoo-lab/nexmon/commit/050d415d33f1f09223f10cd645483e68d8193497) |
@@ -57,7 +57,7 @@ variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes wit
 
 # Getting Started
 ### Prepare Raspberry Pi
-* Burn [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-08-24/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
+* Burn [Raspbian Buster Lite 2021-01-1](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-01-12/2021-01-11-raspios-buster-armhf-lite.zip) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
 * [Create an empty file called `ssh`](https://www.raspberrypi.org/documentation/remote-access/ssh/), without any extension, on the boot partition of the SD card.
 * [SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) into the Pi.
 * With `sudo raspi-config`, set WiFi Country, Time Zone, and then Expand File System.
@@ -79,9 +79,15 @@ Install dependencies.
 
 Your installation will happen in this tmux session. The right bottom corner will show the step running. Use `ctrl-b d` to detach, and `tmux attach-session -t nexmon` to re-attach.
 
+If you're facing an problem, please [create an Issue](https://github.com/nexmonster/nexmon_csi/issues/new).
+
 # Known issues
 
-A kernel upgrade may have caused instability in some installs. Try using the 4.19.97 branch if you're facing issues.
+The kernel you are using and the headers installed with `raspberrypi-kernel-headers` may be out of sync if you're not using the latest Raspbian.
+When that happens, you will see the installation failing with a message like `/lib/modules/5.4.51-v7l+/build: No such file or directory. Stop.`
+[Updating your OS](https://www.raspberrypi.org/documentation/raspbian/updating.md) or installing the latest verison should install the latest kernel and bring it in sync with the headers.
+
+If the latest Raspbian version doesn't ship the 5.4 kernel, you can try installing the newest version with a 5.4 kernel and get it's headers as [shown here](https://github.com/nexmonster/nexmon_csi/tree/pi-4.19.97#get-kernel-headers).
 
 # Extract from our License
 
