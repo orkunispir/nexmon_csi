@@ -8,13 +8,14 @@ Wi-Fi frames (802.11a/(g)/n/ac) on a per frame basis with up to 80 MHz bandwidth
 several Broadcomm Wi-Fi chips. For a full list, see the [original Nexmon_CSI repository](https://github.com/seemoo-lab/nexmon_csi).
 
 **This fork and branch are for Raspberry Pi 3B+ and 4 variants.**
+
 |                   |                         |
 | ----------------- | ----------------------- |
 | Device            | Raspberry Pi 3B+ and 4  |
 | Raspbian          | [Raspbian Buster Lite 2021-01-11](https://www.raspberrypi.org/software/operating-systems/#raspberry-pi-os-32-bit) |
 | Chip              | BCM43455c0 (built-in)   |
 | Nexmon_csi Commit | [ba99ce](https://github.com/seemoo-lab/nexmon_csi/commit/ba99ce12a6a42d7e4ec75e6f8ace8f610ed2eb60) |
-| Nexmon Commit     | [050d41](https://github.com/seemoo-lab/nexmon/commit/https://github.com/seemoo-lab/nexmon/commit/050d415d33f1f09223f10cd645483e68d8193497) |
+| Nexmon Commit     | [050d41](https://github.com/seemoo-lab/nexmon/commit/050d415d33f1f09223f10cd645483e68d8193497) |
 | Date              | August 29, 2020|
 
 ## Usage
@@ -35,6 +36,8 @@ After following the [getting started](#getting-started) guide, you can begin ext
 Collect CSI by listening on socket 5500 for UDP packets. One way to do this is using tcpdump:
 `tcpdump -i wlan0 dst port 5500`. You can store 1000 CSI samples in a pcap file like this:
 `tcpdump -i wlan0 dst port 5500 -vv -w output.pcap -c 1000`.
+
+You will not be able to use the built in WiFi chip to connect to your WLAN, so use an Ethernet cable.
 
 ## Analyzing the CSI
 
@@ -59,7 +62,7 @@ variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes wit
 ### Prepare Raspberry Pi
 * Burn [Raspbian Buster Lite 2021-01-1](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-01-12/2021-01-11-raspios-buster-armhf-lite.zip) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
 * [Create an empty file called `ssh`](https://www.raspberrypi.org/documentation/remote-access/ssh/), without any extension, on the boot partition of the SD card.
-* [SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) into the Pi.
+* [SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) into the Pi via Ethernet.
 * With `sudo raspi-config`, set WiFi Country, Time Zone, and then Expand File System.
 * Reboot when asked to.
 
@@ -125,6 +128,7 @@ Additionally, I would appreciate it if you would cite this repository.
 
 I'm not affiliated with the Seemoo lab.
 This software is useful to me and helped me complete my Thesis, so I'm trying to give back to the community.
+You can email me, but I would prefer it if you could create an issue here instead, if you're facing any issues.
 
 # Powered By
 
