@@ -11,7 +11,7 @@ several Broadcomm Wi-Fi chips. For a full list, see the [original Nexmon_CSI rep
 |                   |                         |
 | ----------------- | ----------------------- |
 | Device            | Raspberry Pi 3B+ and 4  |
-| Raspbian          | [Raspbian Buster Lite 2020-08-20](https://www.raspberrypi.org/downloads/raspberry-pi-os/) |
+| Raspbian          | [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2020-08-24/) |
 | Chip              | BCM43455c0 (built-in)   |
 | Nexmon_csi Commit | [ba99ce](https://github.com/seemoo-lab/nexmon_csi/commit/ba99ce12a6a42d7e4ec75e6f8ace8f610ed2eb60) |
 | Nexmon Commit     | [050d41](https://github.com/seemoo-lab/nexmon/commit/https://github.com/seemoo-lab/nexmon/commit/050d415d33f1f09223f10cd645483e68d8193497) |
@@ -62,19 +62,26 @@ variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes wit
 
 # Getting Started
 ### Prepare Raspberry Pi
-* Burn [Raspbian Buster Lite 2020-08-20](https://www.raspberrypi.org/downloads/raspberry-pi-os/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
+* Burn [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2020-08-24/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
 * [Create an empty file called `ssh`](https://www.raspberrypi.org/documentation/remote-access/ssh/), without any extension, on the boot partition of the SD card.
 * [SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) into the Pi.
 * With `sudo raspi-config`, set WiFi Country, Time Zone, and then Expand File System.
 * Reboot when asked to.
 
 ### Install dependencies
-Install dependencies.
+Install dependencies.  Do **not** run _apt upgrade_, that will change the kernel. Only kernels upto version 5.4 are compatible with Nexmon at the time of writing.
 
 * `sudo apt update`
-* `sudo apt upgrade`
 * `sudo reboot`
-* `sudo apt install raspberrypi-kernel-headers git libgmp3-dev gawk qpdf bison flex make automake texinfo libtool-bin tcpdump tmux`
+* `sudo apt install git libgmp3-dev gawk qpdf bc bison flex libssl-dev make automake texinfo libtool-bin tcpdump tmux libncurses5-dev`
+* `sudo reboot`
+
+### Get Kernel Headers
+As 5.4.51 is an older release, the headers available with apt are out of sync with the kernel.
+So we get them using the [rpi-source project](https://github.com/RPi-Distro/rpi-source).
+
+* `sudo wget https://raw.githubusercontent.com/RPi-Distro/rpi-source/master/rpi-source -O /usr/local/bin/rpi-source && sudo chmod +x /usr/local/bin/rpi-source && /usr/local/bin/rpi-source -q --tag-update`
+* `rpi-source`
 * `sudo reboot`
 
 ### Install Nexmon and Nexmon_CSI
