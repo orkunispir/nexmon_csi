@@ -11,7 +11,7 @@ several Broadcomm Wi-Fi chips. For a full list, see the [original Nexmon_CSI rep
 |                   |                         |
 | ----------------- | ----------------------- |
 | Device            | Raspberry Pi 3B+ and 4  |
-| Raspbian          | [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2020-08-24/) |
+| Raspbian          | [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-08-24/) |
 | Chip              | BCM43455c0 (built-in)   |
 | Nexmon_csi Commit | [ba99ce](https://github.com/seemoo-lab/nexmon_csi/commit/ba99ce12a6a42d7e4ec75e6f8ace8f610ed2eb60) |
 | Nexmon Commit     | [050d41](https://github.com/seemoo-lab/nexmon/commit/https://github.com/seemoo-lab/nexmon/commit/050d415d33f1f09223f10cd645483e68d8193497) |
@@ -62,7 +62,7 @@ variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes wit
 
 # Getting Started
 ### Prepare Raspberry Pi
-* Burn [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2020-08-24/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
+* Burn [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-08-24/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
 * [Create an empty file called `ssh`](https://www.raspberrypi.org/documentation/remote-access/ssh/), without any extension, on the boot partition of the SD card.
 * [SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) into the Pi.
 * With `sudo raspi-config`, set WiFi Country to US, set your Time Zone, and then Expand File System.
