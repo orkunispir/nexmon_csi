@@ -65,14 +65,13 @@ variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes wit
 * Burn [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2020-08-24/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
 * [Create an empty file called `ssh`](https://www.raspberrypi.org/documentation/remote-access/ssh/), without any extension, on the boot partition of the SD card.
 * [SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) into the Pi.
-* With `sudo raspi-config`, set WiFi Country, Time Zone, and then Expand File System.
+* With `sudo raspi-config`, set WiFi Country to US, set your Time Zone, and then Expand File System.
 * Reboot when asked to.
 
 ### Install dependencies
 Install dependencies.  Do **not** run _apt upgrade_, that will change the kernel. Only kernels upto version 5.4 are compatible with Nexmon at the time of writing.
 
 * `sudo apt update`
-* `sudo reboot`
 * `sudo apt install git libgmp3-dev gawk qpdf bc bison flex libssl-dev make automake texinfo libtool-bin tcpdump tmux libncurses5-dev`
 * `sudo reboot`
 
