@@ -12,7 +12,7 @@ several Broadcomm Wi-Fi chips. For a full list, see the [original Nexmon_CSI rep
 |                   |                         |
 | ----------------- | ----------------------- |
 | Device            | Raspberry Pi 3B+ and 4  |
-| Raspbian          | [Raspbian Buster Lite 2021-01-11](https://www.raspberrypi.org/software/operating-systems/#raspberry-pi-os-32-bit) |
+| Raspbian          | [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-08-24/) |
 | Chip              | BCM43455c0 (built-in)   |
 | Nexmon_csi Commit | [ba99ce](https://github.com/seemoo-lab/nexmon_csi/commit/ba99ce12a6a42d7e4ec75e6f8ace8f610ed2eb60) |
 | Nexmon Commit     | [050d41](https://github.com/seemoo-lab/nexmon/commit/050d415d33f1f09223f10cd645483e68d8193497) |
@@ -38,6 +38,7 @@ Collect CSI by listening on socket 5500 for UDP packets. One way to do this is u
 `tcpdump -i wlan0 dst port 5500 -vv -w output.pcap -c 1000`.
 
 You will not be able to use the built in WiFi chip to connect to your WLAN, so use an Ethernet cable.
+If you're unable to collect CSI, trying using Channel 36.
 
 ## Analyzing the CSI
 
@@ -60,19 +61,25 @@ variable | `int16[]`  | CSI Data                | Each CSI sample is 4 bytes wit
 
 # Getting Started
 ### Prepare Raspberry Pi
-* Burn [Raspbian Buster Lite 2021-01-1](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-01-12/2021-01-11-raspios-buster-armhf-lite.zip) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
+* Burn [Raspbian Buster Lite 2020-08-20](https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-08-24/) onto an empty SD card. You can use [Etcher](https://www.balena.io/etcher/).
 * [Create an empty file called `ssh`](https://www.raspberrypi.org/documentation/remote-access/ssh/), without any extension, on the boot partition of the SD card.
 * [SSH](https://www.raspberrypi.org/documentation/remote-access/ssh/) into the Pi via Ethernet.
-* With `sudo raspi-config`, set WiFi Country, Time Zone, and then Expand File System.
+* With `sudo raspi-config`, set WiFi Country to US, set your Time Zone, and then Expand File System.
 * Reboot when asked to.
 
 ### Install dependencies
-Install dependencies.
+Install dependencies. Do **not** run _apt upgrade_, that will change the kernel. Only kernels upto version 5.4 are compatible with Nexmon at the time of writing.
 
 * `sudo apt update`
-* `sudo apt upgrade`
+* `sudo apt install git libgmp3-dev gawk qpdf bc bison flex libssl-dev make automake texinfo libtool-bin tcpdump tmux libncurses5-dev`
 * `sudo reboot`
-* `sudo apt install raspberrypi-kernel-headers git libgmp3-dev gawk qpdf bison flex make automake texinfo libtool-bin tcpdump tmux`
+
+### Get Kernel Headers
+As 5.4.51 is an older release, the headers available with apt are out of sync with the kernel.
+So we get them using the [rpi-source project](https://github.com/RPi-Distro/rpi-source).
+
+* `sudo wget https://raw.githubusercontent.com/RPi-Distro/rpi-source/master/rpi-source -O /usr/local/bin/rpi-source && sudo chmod +x /usr/local/bin/rpi-source && /usr/local/bin/rpi-source -q --tag-update`
+* `rpi-source`
 * `sudo reboot`
 
 ### Install Nexmon and Nexmon_CSI
@@ -90,7 +97,7 @@ The kernel you are using and the headers installed with `raspberrypi-kernel-head
 When that happens, you will see the installation failing with a message like `/lib/modules/5.4.51-v7l+/build: No such file or directory. Stop.`
 [Updating your OS](https://www.raspberrypi.org/documentation/raspbian/updating.md) or installing the latest verison should install the latest kernel and bring it in sync with the headers.
 
-If the latest Raspbian version doesn't ship the 5.4 kernel, you can try installing the newest version with a 5.4 kernel and get it's headers as [shown here](https://github.com/nexmonster/nexmon_csi/tree/pi-4.19.97#get-kernel-headers).
+If the latest Raspbian version doesn't ship the 5.4 kernel, you can try installing the newest Raspbian version with a 5.4 kernel and get it's headers as [shown here](https://github.com/nexmonster/nexmon_csi/tree/pi-4.19.97#get-kernel-headers).
 
 # Extract from our License
 
