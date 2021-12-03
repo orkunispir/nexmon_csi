@@ -20,6 +20,8 @@ Nexmonster is a group of people trying to provide excellent documentation, and a
 
 We primarily support Raspberry Pi (3B+ and 4), and Asus RT-AC86U. If you need help with other devices, please create an Issue :)
 
+If you're using Nexmon_CSI, please let me know via email (aravind.reddy@iiitb.org) or [Discussions](https://github.com/nexmonster/nexmon_csi/discussions) and I'll feature your work.
+
 ## Collecting CSI
 
 #### Raspberry Pi
@@ -59,11 +61,3 @@ I'm looking for PhD Positions in Wireless research. Please let me know if you're
 If you would like to help out, please create a [Discussion](https://github.com/nexmonster/nexmon_csi/discussions). Please create an Issue before starting a Pull Request.
 
 If the documentation and scripts here helped you, I would really appreciate it if you credit this repo and the [seemoo-lab/nexmon_csi](https://github.com/seemoo-lab/nexmon_csi) project :)
-
-
-
-
-
-
-
-
