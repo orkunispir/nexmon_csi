@@ -14,7 +14,7 @@
 ⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿
 ```
-## Nexmonster / nexmon_csi
+# Nexmonster / nexmon_csi
 
 Nexmonster is a group of people trying to provide excellent documentation, and an easy installation experience for [seemoo-lab/nexmon_csi](https://github.com/seemoo-lab/nexmon_csi).
 
@@ -22,7 +22,7 @@ We primarily support Raspberry Pi (3B+ and 4), and Asus RT-AC86U. If you need he
 
 If you're using Nexmon_CSI, please let me know via email (aravind.reddy@iiitb.org) or [Discussions](https://github.com/nexmonster/nexmon_csi/discussions) and I'll feature your work.
 
-## Collecting CSI
+# Collecting CSI
 
 #### Raspberry Pi
 
@@ -41,13 +41,21 @@ RT-AC86U | https://github.com/nexmonster/nexmon_csi/discussions/2 | Short and Qu
 RT-AC86U | https://github.com/nexmonster/nexmon_csi/discussions/7 | Longer guide that shows how to compile from source
 
 
-## Plotting CSI
+# Analysing CSI
 
 Name | Devices | Language | Link | Notes 
 ---|---|---|---|---
 CSIKit | Several devices | Python | https://github.com/Gi-z/CSIKit | A feature rich decoder supporting many input formats and sources
 CSI Explorer 2.0 | Raspberry Pi 3B+ and 4B | Python | https://github.com/nexmonster/nexmon_csi/tree/feature/python/utils/python | CSI decoder and plotter optimised for speed. You can embed it into your scripts to read CSI and process it
 CSI Explorer | Raspberry Pi 3B+ and 4B | Python | https://github.com/zeroby0/csi-explorer | CSI reader designed for 5.4.51-plus branch
+
+# Publications using CSI
+
+
+- [Yu, J., Wang, P., Koike-Akino, T., Wang, Y., Orlik, P. V., & Sun, H. (2020, December). Human Pose and Seat Occupancy Classification with Commercial MMWave WiFi. In 2020 IEEE Globecom Workshops (GC Wkshps (pp. 1-6). IEEE.](https://ieeexplore.ieee.org/document/9367535)
+- [A. R. Voggu, V. Vazhayil and M. Rao, "Decimeter Level Indoor Localisation with a Single WiFi Router using CSI Fingerprinting," 2021 IEEE Wireless Communications and Networking Conference (WCNC), 2021, pp. 1-5, doi: 10.1109/WCNC49053.2021.9417483.](https://www.avoggu.com/papers/1570682474.pdf)
+
+Email me at aravind.reddy@iiitb.org to have your work featured here.
 
 ## Members, Crediting, Contribution, and other stuff
 
