@@ -28,8 +28,9 @@ If you're using Nexmon_CSI, please let me know via email (aravind.reddy@iiitb.or
 
 Pi Version | Kernel Version | Link | Notes
 ---|---|---|---
-Pi 3B+ and 4 | 5.4.51 | https://github.com/nexmonster/nexmon_csi/tree/pi-5.4.51 | This is the **recommended** version.
-Pi 3B+ and 4 | 5.4.51 | https://github.com/nexmonster/nexmon_csi/tree/pi-5.4.51-plus | Like 5.4.51, but includes more data like RSSI, Source and Destination Mac ID. Use https://github.com/zeroby0/csi-explorer to plot data.
+Pi 3B+ and 4 | 5.10.92 | https://github.com/nexmonster/nexmon_csi/tree/pi-5.10.92 | This is the **recommended** version with RSSI and FC.
+Pi 3B+ and 4 | 5.4.51  | https://github.com/nexmonster/nexmon_csi/tree/pi-5.4.51  | Uses the legacy 5.4.51 Kernel with old packet format.
+Pi 3B+ and 4 | 5.4.51  | https://github.com/nexmonster/nexmon_csi/tree/pi-5.4.51-plus | Like 5.4.51, but includes more data like RSSI, Source and Destination Mac ID. Use https://github.com/zeroby0/csi-explorer to plot data.
 Pi 3B+ and 4 | 4.19.97 | https://github.com/nexmonster/nexmon_csi/tree/pi-4.19.97 | Uses the legacy 4.19.97 Kernel. Use this if you're facing problems with other versions, or you need to use Kernel v4.19.97 for some reason.
 
 
