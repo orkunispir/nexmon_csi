@@ -43,6 +43,10 @@ if __name__ == '__main__':
     
     if ".pcap" in sys.argv[1]:
         file_name = sys.argv[1].split(".")[0]
+    else:
+        file_name = sys.argv[1]
+    
+    #print("File name: " + file_name)
     
 
     samples = decoder.read_pcap('pcapfiles/' + file_name + ".pcap")
@@ -56,4 +60,6 @@ if __name__ == '__main__':
 
         for i in range(0, samples.nsamples):
             csv_writer.writerow(print_csi(samples, i))
+        
+        print("CSI saved in csv/%s.csv" % file_name)
 
