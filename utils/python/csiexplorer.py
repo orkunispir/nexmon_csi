@@ -3,6 +3,8 @@ import importlib
 import config
 from plotters.AmpPhaPlotter import Plotter # Amplitude and Phase plotter
 decoder = importlib.import_module(f'decoders.{config.decoder}') # This is also an import
+macid = '0a:c2:c5:5f:b3:61'
+
 
 def string_is_int(s):
     '''
@@ -28,6 +30,8 @@ if __name__ == "__main__":
         print(f'File {pcap_filepath} not found.')
         exit(-1)
 
+    print("Here")
+
     if config.plot_samples:
         plotter = Plotter(samples.bandwidth)
 
@@ -51,6 +55,11 @@ if __name__ == "__main__":
                 if config.print_samples:
                     samples.print(index)
                 if config.plot_samples:
+                    macid_rx = samples.get_mac(index).hex()
+                    macid_rx = ':'.join([macid_rx[i:i+2] for i in range(0, len(macid_rx), 2)])
+                    #print(macid_rx)
+                    if macid != str(macid_rx):
+                        continue
                     csi = samples.get_csi(
                         index,
                         config.remove_null_subcarriers,
