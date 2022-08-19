@@ -24,10 +24,6 @@ def print_csi(samples, index):
     'seqnum': sc, 'fragnum': fn, 'coreNspatialstream': css, 'framectrl': fctl, 'csi_len': len(csi_list), 'csi': csi_list}
 
 
-
-
-
-
 if __name__ == '__main__':
 
  
